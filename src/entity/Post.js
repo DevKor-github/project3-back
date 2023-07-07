@@ -18,6 +18,23 @@ const postSchema = new EntitySchema({
 			length: 255,
 			nullable: true,
 		},
+		place: {
+			type: 'varchar',
+			length: 255,
+		},
+		description: {
+			type: 'varchar',
+			length: 255,
+		},
+		// like: { 
+		// 	type: 'int',
+		// },
+
+		//댓글
+		// comments: {
+		// 	type: 'varchar',
+		// 	length: 255,
+		// },
 	},
 });
 
