@@ -1,6 +1,6 @@
 import express from 'express';
 import { Pool } from 'pg';
-
+import postRouter from'./router/post.ts';
 const app = express();
 const port = 3000;
 
@@ -15,6 +15,7 @@ const pool = new Pool({
 
 // 미들웨어 및 라우트 설정
 app.use(express.json());
+app.use('/posts',postRouter);
 
 app.get('/', (req, res) => {
   res.send('Hello World!');
