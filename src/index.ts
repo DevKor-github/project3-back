@@ -1,40 +1,54 @@
-import express from 'express';
-import { Pool } from 'pg';
-import postRouter from'./router/post.ts';
-const app = express();
-const port = 3000;
+import express, { Express, Request, Response } from 'express';
+import http from 'http';
+import dataSource from './config/dataSource';  // assuming that dataSource is a module
+import errorHandler from './middlewares/errorHandler'; // assuming that errorHandler is a module
+import router from './router'; // assuming that router is a module
 
-// PostgreSQL 연결 설정
-const pool = new Pool({
-  host: 'localhost',
-  port: 5432,
-  database: 'naeromaro',
-  user: 'naeromaro',
-  password: '1234',
-});
+const connectDB = async (): Promise<void> => {
+	try {
+		await dataSource;
+		console.log('DB connected!');
+	} catch (err) {
+		console.error(err);
+	}
+};
 
-// 미들웨어 및 라우트 설정
-app.use(express.json());
-app.use('/posts',postRouter);
+const loadExpressApp = async (): Promise<Express> => {
+	await connectDB();
 
-app.get('/', (req, res) => {
-  res.send('Hello World!');
-});
+	const app: Express = express();
+	app.use(express.json());
 
-app.get('/users', async (req, res) => {
-  try {
-    const client = await pool.connect();
-    const result = await client.query('SELECT * FROM users');
-    const users = result.rows;
-    res.json(users);
-    client.release();
-  } catch (err) {
-    console.error(err);
-    res.status(500).send('Error retrieving users');
-  }
-});
+	app.use(router);
+	app.use(errorHandler);
+	app.all('*', (_, res: Response) => {
+		res.status(404).json({
+			data: null,
+			error: {
+				message: 'URL Not Found',
+			},
+		});
+	});
 
-// 서버 시작
-app.listen(port, () => {
-  console.log(`Server is listening on port ${port}`);
-});
+	return app;
+};
+
+const startServer = async (): Promise<void> => {
+	const app: Express = await loadExpressApp();
+
+	const server: http.Server = http.createServer(app);
+
+	const port: string | number = process.env.PORT || 3000;
+
+	server.listen(port, () => {
+		console.log(`Server is listening on port ${port}`);
+	});
+};
+
+startServer()
+	.then(() => {
+		console.log('Server started!');
+	})
+	.catch((err: Error) => {
+		console.error(err);
+	});

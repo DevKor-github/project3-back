@@ -1,11 +1,12 @@
 import { getRepository } from 'typeorm';
 import dataSource from '../config/dataSource';
+import postSchema from '../entity/Post';
 
 
 export const getPostList = async (): Promise<any[]> => {
   try {
     const connection = await dataSource; // dataSource의 반환 값을 대기
-    const postRepository = connection.getRepository('post'); // connection에서 getRepository 호출
+    const postRepository = connection.getRepository(postSchema); // connection에서 getRepository 호출
     const postList = await postRepository.find();
     return postList;
   } catch (err) {
@@ -16,8 +17,8 @@ export const getPostList = async (): Promise<any[]> => {
 export const getPostById = async (postId:number): Promise<any> => {
   try {
     const connection = await dataSource; // dataSource의 반환 값을 대기
-    const postRepository = connection.getRepository('post'); // connection에서 getRepository 호출
-    const foundPost = await postRepository.findOne({where:{postId:postId}});
+    const postRepository = connection.getRepository(postSchema); // connection에서 getRepository 호출
+    const foundPost = await postRepository.findOne({where:{id:postId}});
     if (!foundPost) {
       throw new Error(`Post with ID: ${postId} not found.`);
     }
@@ -31,7 +32,7 @@ export const getPostById = async (postId:number): Promise<any> => {
 export const createPost = async (name:string, author:string): Promise<any> => {
   try {
     const connection = await dataSource; // dataSource의 반환 값을 대기
-    const postRepository = connection.getRepository('post');
+    const postRepository = connection.getRepository(postSchema);
     const newPost=await postRepository.create({name,author});
     await postRepository.save(newPost);
     return newPost;
@@ -43,8 +44,8 @@ export const createPost = async (name:string, author:string): Promise<any> => {
 export const updatePost = async (postId: number,name:string, author:string): Promise<any> => {
     try {
       const connection = await dataSource; // dataSource의 반환 값을 대기
-      const postRepository = connection.getRepository('post');
-      const postToUpdate=await postRepository.findOne({where:{postId:postId}});
+      const postRepository = connection.getRepository(postSchema);
+      const postToUpdate=await postRepository.findOne({where:{id:postId}});
       if (!postToUpdate) {
         throw new Error(`Post with ID: ${postId} not found.`);
       }
@@ -60,8 +61,8 @@ export const updatePost = async (postId: number,name:string, author:string): Pro
   export const deletePost = async (postId: number): Promise<any> => {
     try {
       const connection = await dataSource; // dataSource의 반환 값을 대기
-      const postRepository = connection.getRepository('post');
-      const postToDelete=await postRepository.findOne({where:{postId:postId}});
+      const postRepository = connection.getRepository(postSchema);
+      const postToDelete=await postRepository.findOne({where:{id:postId}});
       if (!postToDelete) {
         throw new Error(`Post with ID: ${postId} not found.`);
       }

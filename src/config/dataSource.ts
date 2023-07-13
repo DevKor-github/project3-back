@@ -14,7 +14,8 @@ const dataSource: Promise<Connection> = createConnection({
   password: process.env.DB_PASSWORD || '1234',
   database: process.env.DB_NAME || 'naeromaro',
   synchronize: true,
-  entities: [path.join(__dirname, 'entity', 'Post.ts'), path.join(__dirname, 'entity', 'User.ts')],
+  //entities: [path.join(__dirname, 'entity', 'Post.ts'), path.join(__dirname, 'entity', 'User.ts')],
+  entities: ['./entity/Post', './entity/User']
 });
 
 export default dataSource;
