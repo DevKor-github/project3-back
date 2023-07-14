@@ -15,14 +15,7 @@ interface Gps {
       longitude: {
         type: 'float',
       },
-    },
-    relations:{
-        post:{
-            target:postSchema,
-            type:"many-to-one",
-            joinColumn:true
-        },
-    },
+    }
   });
   
   export default gpsSchema;

@@ -5,8 +5,11 @@ import postSchema from '../entity/Post';
 
 export const getPostList = async (): Promise<any[]> => {
   try {
-    const connection = await dataSource; // dataSource의 반환 값을 대기
-    const postRepository = connection.getRepository(postSchema); // connection에서 getRepository 호출
+    console.log('hi')
+    console.log(dataSource.entityMetadatas)
+    //const connection = await dataSource; // dataSource의 반환 값을 대기
+    console.log(dataSource.getMetadata('post'))
+    const postRepository = dataSource.getRepository('post'); // connection에서 getRepository 호출
     const postList = await postRepository.find();
     return postList;
   } catch (err) {

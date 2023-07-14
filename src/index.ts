@@ -6,7 +6,7 @@ import router from './router'; // assuming that router is a module
 
 const connectDB = async (): Promise<void> => {
 	try {
-		await dataSource;
+		await dataSource.initialize();
 		console.log('DB connected!');
 	} catch (err) {
 		console.error(err);
@@ -16,7 +16,8 @@ const connectDB = async (): Promise<void> => {
 const loadExpressApp = async (): Promise<Express> => {
 	await connectDB();
 
-	const app: Express = express();
+	const app = express();
+	
 	app.use(express.json());
 
 	app.use(router);
@@ -47,6 +48,7 @@ const startServer = async (): Promise<void> => {
 
 startServer()
 	.then(() => {
+		console.log('modified')
 		console.log('Server started!');
 	})
 	.catch((err: Error) => {

@@ -1,21 +1,19 @@
-import { createConnection, Connection } from 'typeorm';
+import typeorm ,{ DataSource } from 'typeorm';
 import dotenv from 'dotenv';
-import path from 'path';
+import { join } from 'path';
 
 dotenv.config();
 
-const __dirname = path.resolve();
 
-const dataSource: Promise<Connection> = createConnection({
+const dataSource = new DataSource({
   type: 'postgres',
   host: process.env.DB_HOST || 'localhost',
-  port: Number(process.env.DB_PORT) || 5432,
-  username: process.env.DB_USER || 'naeromaro',
-  password: process.env.DB_PASSWORD || '1234',
-  database: process.env.DB_NAME || 'naeromaro',
+  port: Number(process.env.DB_PORT) || 5433,
+  username: process.env.DB_USER || 'postgres',
+  password: process.env.DB_PASSWORD || '0129',
+  database: process.env.DB_NAME || 'naromaro',
   synchronize: true,
-  //entities: [path.join(__dirname, 'entity', 'Post.ts'), path.join(__dirname, 'entity', 'User.ts')],
-  entities: ['./entity/Post', './entity/User']
+  entities: [join(__dirname, '../entity/Post.ts'), './entity/User']
 });
 
 export default dataSource;
