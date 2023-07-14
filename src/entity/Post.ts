@@ -1,5 +1,4 @@
 import { EntitySchema } from 'typeorm';
-
 interface Post {
   id: number;
   name: string;

@@ -28,12 +28,12 @@ export const getPostById = async (postId:number): Promise<any> => {
     throw err;
   }
 };
-
+let currentPostId=1;
 export const createPost = async (name:string, author:string): Promise<any> => {
   try {
     const connection = await dataSource; // dataSource의 반환 값을 대기
     const postRepository = connection.getRepository(postSchema);
-    const newPost=await postRepository.create({name,author});
+    const newPost=await postRepository.create({id:currentPostId++,name,author});
     await postRepository.save(newPost);
     return newPost;
   } catch (err) {

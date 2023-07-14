@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import * as postService from '../service/postService';
 
-export const getPostList = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const getPostList = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const postList = await postService.getPostList();
     res.status(200).json(postList);
@@ -10,7 +10,7 @@ export const getPostList = async (req: Request, res: Response, next: NextFunctio
   }
 };
 
-export const createPost = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const createPost = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { name, author } = req.body;
     const newPost = await postService.createPost(name,author);
@@ -19,7 +19,7 @@ export const createPost = async (req: Request, res: Response, next: NextFunction
     next(err);
   }
 };
-export const updatePost = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const updatePost = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id:number=Number(req.params);
     const { name, author } = req.body;
@@ -29,7 +29,7 @@ export const updatePost = async (req: Request, res: Response, next: NextFunction
     next(err);
   }
 };
-export const getPostById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const getPostById = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id:number=Number(req.params);
     const { name, author } = req.body;
@@ -39,7 +39,7 @@ export const getPostById = async (req: Request, res: Response, next: NextFunctio
     next(err);
   }
 };
-export const deletePost = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const deletePost = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id:number=Number(req.params);
     const deletedPost=await postService.deletePost(id);

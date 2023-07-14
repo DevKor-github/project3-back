@@ -1,5 +1,4 @@
 import express, { Request, Response, Router } from 'express';
-
 import postRouter from './post.ts';
 
 const router = express.Router();
