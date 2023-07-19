@@ -1,4 +1,5 @@
 import { EntitySchema } from "typeorm";
+//import {Entity, PrimaryGeneratedColumn, Column} from "typeorm";
 
 const postSchema = new EntitySchema({
   name: "post",
@@ -10,7 +11,7 @@ const postSchema = new EntitySchema({
       generated: true,
     },
     title: {
-      type: "varchar",
+      type: "text",
       length: 255,
     },
     author: {
@@ -19,25 +20,15 @@ const postSchema = new EntitySchema({
     },
     //글
     content: {
-      type: "type",
-      nullable: false,
+      type: "text",
     },
-    //사진
-    pic: {
-      type: "xml",
-      length: 1000,
-      nullable: true,
-    },
-    //작성시간
-    postdate: {
-      type: "date",
-      nullable: false,
-    },
+
     //위치 태그
     location: {
       type: "point",
-      foreign: true,
+      nullable: true,
     },
+    /*
     //좋아요
     like: {
       type: "int",
@@ -49,7 +40,30 @@ const postSchema = new EntitySchema({
       length: 50,
       nullable: true,
     },
+     //사진
+    pic: {
+      type: "xml",
+      length: 1000,
+      nullable: true,
+    },
+    //작성시간
+    postdate: {
+      type: "date",
+      nullable: false,
+    },
+    */
   },
+  /*relations:{
+    location:{
+      type:"one-to-one",
+      target: "Location",  //지오 코딩 api->위치 변환 저장한 Location entity 
+      joinColumn:{
+        name:"location",
+      },
+
+    }
+
+  }*/
 });
 
 export default postSchema;
