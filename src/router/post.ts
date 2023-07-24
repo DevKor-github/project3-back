@@ -13,6 +13,6 @@ router.get("/:id", postController.getPostID);
 //update
 router.put("/:id", postController.updatePostID);
 //delete
-router.delete("/id", postController.deletePostID);
+router.delete("/:id", postController.deletePostID);
 
 export default router;

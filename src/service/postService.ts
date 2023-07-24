@@ -1,9 +1,8 @@
 import dataSource from "../config/dataSource";
-//added
-//import GecodingLibray grom 'geocoding-library';
-import postSchema from "../entity/Post";
 
-const postRepository = dataSource.getRepository(postSchema);
+import { PostSchema } from "../entity/Post";
+
+const postRepository = dataSource.getRepository(PostSchema);
 
 export const getPostList = async () => {
   try {
@@ -40,9 +39,9 @@ export const getbyPostID = async (id: number): Promise<any | undefined> => {
 
 export const updatePostID = async (
   id: number,
-  content: Partial<any>,
+  content: string,
   title: string
-): Promise<any | undefined> => {
+) => {
   try {
     var post_updated = await postRepository.findOne({ where: { id: id } });
     if (post_updated) {
@@ -63,6 +62,8 @@ export const deletePostID = async (postID: number): Promise<boolean> => {
   try {
     //const delete_post = await postRepository.findOne({ where: { id: postID } });
     //if (delete_post) {
+    const con = await dataSource;
+
     await postRepository.delete(postID);
     return true;
     //} else {

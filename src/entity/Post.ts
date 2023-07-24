@@ -1,69 +1,51 @@
-import { EntitySchema } from "typeorm";
-//import {Entity, PrimaryGeneratedColumn, Column} from "typeorm";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  JoinColumn,
+} from "typeorm";
 
-const postSchema = new EntitySchema({
-  name: "post",
-  tableName: "post",
-  columns: {
-    id: {
-      type: "int",
-      primary: true,
-      generated: true,
-    },
-    title: {
-      type: "text",
-      length: 255,
-    },
-    author: {
-      type: "varchar",
-      length: 255,
-    },
-    //글
-    content: {
-      type: "text",
-    },
+import { LocationSchema } from "./Location";
 
-    //위치 태그
-    location: {
-      type: "point",
-      nullable: true,
-    },
-    /*
-    //좋아요
-    like: {
-      type: "int",
-      nullable: true,
-    },
-    //답글
-    comment: {
-      type: "varchar",
-      length: 50,
-      nullable: true,
-    },
-     //사진
-    pic: {
-      type: "xml",
-      length: 1000,
-      nullable: true,
-    },
-    //작성시간
-    postdate: {
-      type: "date",
-      nullable: false,
-    },
-    */
-  },
-  /*relations:{
-    location:{
-      type:"one-to-one",
-      target: "Location",  //지오 코딩 api->위치 변환 저장한 Location entity 
-      joinColumn:{
-        name:"location",
-      },
+@Entity()
+export class PostSchema {
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    }
+  @Column({
+    type: "varchar",
+    length: 150,
+    unique: true,
+  })
+  title: string;
 
-  }*/
-});
+  @Column({
+    type: "varchar",
+    length: 150,
+  })
+  author: string;
 
-export default postSchema;
+  @Column({
+    type: "varchar",
+    length: 150,
+  })
+  content: string;
+
+  @Column({
+    type: "varchar",
+    length: 150,
+    nullable: true,
+  })
+  location: string;
+
+  //relationhip 설정 PostSchemea(MANY)to Location(ONE)
+  /*@ManyToOne(
+    () => LocationSchema,
+    (locationSchema) => locationSchema.postSchema
+  )
+  @JoinColumn({
+    name: "location",
+  })
+  locationSchema: LocationSchema;*/
+}

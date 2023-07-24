@@ -19,10 +19,13 @@ const dataSource = new DataSource({
   password: process.env.DB_PASSWORD || "postgres",
   database: process.env.DB_NAME || "naromaro",
   synchronize: true,
-  //entities: [join(__dirname, "../entity/Post"), "./entity/User"],
-  entities: ["../entity/Post", "./entity/User"],
+  //apiKey: process.env.googleMapAPI,
+  //entities: [join(__dirname, "/../entity/Post.ts")],
 
-  //entities: [dirPath + "/../entity/Post.js", dirPath + "/../entity/User.js"],
+  entities: [
+    join(__dirname, "/../entity/Post.ts"),
+    join(__dirname, "/../entity/Loation.ts"),
+  ],
 });
 
 export default dataSource;
